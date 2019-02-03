@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="shortcut icon" href="/static/img/icon.png" type="image/x-icon">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
+
+    <title>Typing Test</title>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <img src="/static/img/icon.png" class="float-left">
+        <div class="d-flex">
+            <span class="justify-content-right spinner-grow spinner-grow-sm text-danger mr-2" id="test-active" role="status"
+                aria-hidden="true" style="display: none;"></span>
+            <h1>Typing test</h1>
+        </div>
+
+        <p class="lead">
+            Type the words below for 60 seconds in order to find out your typing speed!
+        </p>
+        <hr class="my-4">
+
+        <button class="btn w-100 mb-1 btn-success" type="button" data-toggle="collapse" data-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample" id="type-button" onclick="toggleButton()">
+            Start
+        </button>
+
+        <div class="collapse" id="collapseExample">
+            <hr>
+            <div class="card-group">
+                <div class="card text-left rounded-0">
+                    <div class="card-body">
+                        <h5 class="card-title">WPM</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Words Per Minute</h6>
+                        <h3 class="card-text">102</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body text-center rounded-0">
+                        <h5 class="card-title">Accuracy</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Correctly Typed Word Ratio</h6>
+                        <h3 class="card-text">95%</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body text-right rounded-0">
+                        <h5 class="card-title">CPM</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Characters Per Minute</h6>
+                        <h3 class="card-text">408</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress rounded-0" style="background-color: gainsboro;">
+                <div id="prog-bar" class="progress-bar" role="progressbar" style="width: 3%;" aria-valuenow=""
+                    aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
+            <input class="form-control rounded-0" type="text" placeholder="text to type goes here" readonly>
+
+            <input type="text" class="form-control mt-2" placeholder="Type Here">
+
+        </div>
+    </div>
+
+    <script>
+        var i = 0;
+        var intId;
+        function toggleButton() {
+            i = 0;
+            $('#prog-bar').css('width', '3%');
+            button = document.getElementById('type-button');
+            buttonClasses = [].slice.apply(button.classList);
+            button.classList.toggle('btn-success');
+            button.classList.toggle('btn-danger');
+            if (buttonClasses.includes('btn-success')) {
+                $('#test-active').css('display', 'block');
+                $('#type-button').text('Stop');
+                intId = setInterval(prog, 50, 0.05);
+            }
+            else {
+                $('#test-active').css('display', 'none');
+                $('#type-button').text('Start');
+                clearInterval(intId);
+            }
+        }
+        function prog(int) {
+            if (i >= 100) {
+                $('#prog-bar').text('Done!');
+                clearInterval(intId);
+                return;
+            }
+            style = i + '%';
+            if (i > 3) {
+                $('#prog-bar').css('width', style);
+            }
+            $('#prog-bar').text(i.toFixed(0) + '%');
+            i += (10 / 6) * int;
+        }
+    </script>
+
+    <!-- Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -26,14 +26,14 @@
         <p class="lead">
             Type the words below for 60 seconds in order to find out your typing speed!
         </p>
+
         <hr class="my-4">
 
-        <button class="btn w-100 mb-1 btn-success" type="button" data-toggle="collapse" data-target="#collapseExample"
-            aria-expanded="false" aria-controls="collapseExample" id="type-button" onclick="toggleButton()">
+        <button class="btn w-100 mb-1 btn-success" type="button" data-toggle="collapse" data-target="#typing-test"
+            aria-expanded="false" aria-controls="typing-test" id="type-button" onclick="toggleButton()">
             Start
         </button>
-
-        <div class="collapse" id="collapseExample">
+        <div class="collapse" id="typing-test">
             <hr>
             <div class="card-group">
                 <div class="card text-left rounded-0">
@@ -68,43 +68,10 @@
             <input type="text" class="form-control mt-2" placeholder="Type Here">
 
         </div>
+
     </div>
 
-    <script>
-        var i = 0;
-        var intId;
-        function toggleButton() {
-            i = 0;
-            $('#prog-bar').css('width', '3%');
-            button = document.getElementById('type-button');
-            buttonClasses = [].slice.apply(button.classList);
-            button.classList.toggle('btn-success');
-            button.classList.toggle('btn-danger');
-            if (buttonClasses.includes('btn-success')) {
-                $('#test-active').css('display', 'block');
-                $('#type-button').text('Stop');
-                intId = setInterval(prog, 50, 0.05);
-            }
-            else {
-                $('#test-active').css('display', 'none');
-                $('#type-button').text('Start');
-                clearInterval(intId);
-            }
-        }
-        function prog(int) {
-            if (i >= 100) {
-                $('#prog-bar').text('Done!');
-                clearInterval(intId);
-                return;
-            }
-            style = i + '%';
-            if (i > 3) {
-                $('#prog-bar').css('width', style);
-            }
-            $('#prog-bar').text(i.toFixed(0) + '%');
-            i += (10 / 6) * int;
-        }
-    </script>
+    <script src="static/js/ui.js"></script>
 
     <!-- Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

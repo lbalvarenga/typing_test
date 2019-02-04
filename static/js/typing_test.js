@@ -13,7 +13,7 @@ function toggle_start() {
     if (test_active) {
         return;
     }
-    setInterval(progress, 100, 0.1);
+    intId = setInterval(progress, 100, 0.1);
     return;
 }
 
@@ -28,12 +28,12 @@ $('#generated-text').html(text);
 var previous_errors = [];
 var display_text = text;
 var typed = 0;
+var accuracy = 0;
 var current_pos = 0;
-var error_count = 0;
 var errors = [];
 $('#type-input').keydown(function (event) {
     if (!test_active) {
-        //toggle_start();
+        toggle_start();
         test_active = true;
     }
 
@@ -50,7 +50,6 @@ $('#type-input').keydown(function (event) {
         }
         if (errors.indexOf(current_pos) != -1) {
             errors.pop();
-            error_count--;
         }
     }
     else {
@@ -60,34 +59,43 @@ $('#type-input').keydown(function (event) {
             }
         }
         else {
-            errors[error_count] = current_pos;
-            error_count++;
+            if (event.key != 'Shift') {
+                errors.push(current_pos);
+            }
         }
         if (event.key != 'Shift') {
             current_pos++;
         }
     }
 
-    //display_text = text.slice(0, current_pos) + '<span class="cursor">' + text.slice(current_pos, current_pos + 1) + '</span>' + text.slice(current_pos + 1);
     if (errors.length == 0) {
         display_text = text;
     }
     else {
-        display_text = '';
+        display_text = text.slice(0, errors[0]);
         for (var i = 0; i < errors.length; i++) {
             previous_errors[i] = '<span class="error">' + text.charAt(errors[i]) + '</span>' + text.slice(errors[i] + 1, errors[i + 1]);
         }
         for (var i = 0; i < errors.length; i++) {
             display_text += previous_errors[i];
         }
-        // ^ That took REALLY long to figure out.
     }
     $('#generated-text').html(display_text);
 
     //Stats
+    $('#wpm').text(Math.round(typed / 4));
+    $('#wpm-banner').text(Math.round(typed / 4));
+
     $('#cpm').text(typed);
     $('#cpm-banner').text(typed);
 
-    $('#wpm').text(Math.round(typed / 4));
-    $('#wpm-banner').text(Math.round(typed / 4));
+    if (errors.length > 0) {
+        accuracy = 100 - (100 * errors.length / current_pos);
+    }
+    else {
+        accuracy = 100;
+    }
+    $('#accuracy').text(accuracy.toFixed(2) + '%');
+    $('#accuracy-banner').text(accuracy.toFixed(2) + '%');
+    
 });

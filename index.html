@@ -50,7 +50,7 @@
         <hr class="my-4">
 
         <button class="btn w-100 btn-success" type="button" data-toggle="collapse" data-target="#typing-test"
-            aria-expanded="false" aria-controls="typing-test" id="type-button" onclick="toggleButton()">
+            aria-expanded="false" aria-controls="typing-test" id="type-button" onclick="">
             Start
         </button>
         <div class="collapse" id="typing-test">
@@ -86,23 +86,20 @@
             <!-- <input class="form-control p-5 rounded-0" type="text" placeholder="text to type goes here" readonly> -->
             <div class="card rounded-0" id="words">
                 <div class="card-body">
-                    <h3>words to type will appear here.</h3>
+                    <h3 id="generated-text"></h3>
                 </div>
             </div>
 
             <div class="input-group mb-3 mt-4">
-                <input type="text" class="form-control form-control-lg" placeholder="Type Here" aria-label="Type Here"
-                    aria-describedby="button-retry">
+                <input type="text" class="form-control form-control-lg" id="type-input" placeholder="Type Here"
+                    aria-label="Type Here" aria-describedby="button-retry">
                 <div class="input-group-append">
                     <button class="btn btn-outline-primary" type="button" id="button-retry">Retry</button>
                 </div>
             </div>
-
         </div>
 
     </div>
-
-    <script src="static/js/ui.js"></script>
 
     <!-- Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -111,6 +108,10 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
+
+    <script src="static/js/ui.js"></script>
+    <script src="static/js/typing_test.js"></script>
+
 </body>
 
 </html>

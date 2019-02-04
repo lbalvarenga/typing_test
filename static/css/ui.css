@@ -14,3 +14,15 @@
     border-bottom-left-radius: .25rem !important;
     border-bottom-right-radius: .25rem !important;
 }
+
+#correct {
+    color:#fff;
+    background-color:#28a745;
+    border-radius: .25rem;
+}
+
+#incorrect {
+    color:#fff;
+    background-color:#dc3545;
+    border-radius: .25rem;
+}

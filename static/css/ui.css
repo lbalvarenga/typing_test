@@ -3,3 +3,14 @@
     border-top:none;
     border-bottom:none;
 }
+
+#stats1 {
+    border-top-left-radius: .25rem !important;
+}
+#stats3 {
+    border-top-right-radius: .25rem !important;
+}
+#words {
+    border-bottom-left-radius: .25rem !important;
+    border-bottom-right-radius: .25rem !important;
+}

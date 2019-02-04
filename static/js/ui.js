@@ -15,7 +15,7 @@ function toggleButton()
     {
         $('#test-active').css('display', 'block');
         $('#type-button').text('Stop');
-        intId = setInterval(prog, 50, 0.05);
+        intId = setInterval(prog, 100, 0.1);
     }
     else
     {
@@ -30,6 +30,7 @@ function prog(int)
     if (i >= 100)
     {
         $('#prog-bar').text('Done!');
+        $('#prog-bar').css('background-color', '#28a745');
         clearInterval(intId);
         return;
     }

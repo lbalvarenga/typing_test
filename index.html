@@ -17,7 +17,7 @@
 
 <body>
     <div class="alert alert-warning alert-dismissible fade show rounded-0 m-0" role="alert">
-        This website is currently under development and some features may not be working.
+        This website is currently under development and some features might not be working.
         <a href="https://github.com/lukeathedev/typing_test/issues" target="_blank">Improve this</a>!
         <button type="button" class="close py-2" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -41,14 +41,14 @@
 
         <hr class="my-4">
 
-        <button class="btn w-100 mb-1 btn-success" type="button" data-toggle="collapse" data-target="#typing-test"
+        <button class="btn w-100 btn-success" type="button" data-toggle="collapse" data-target="#typing-test"
             aria-expanded="false" aria-controls="typing-test" id="type-button" onclick="toggleButton()">
             Start
         </button>
         <div class="collapse" id="typing-test">
-            <hr>
+            <hr class="my-4">
             <div class="card-group">
-                <div class="card text-left rounded-0">
+                <div class="card text-left rounded-0" id="stats1">
                     <div class="card-body">
                         <h5 class="card-title">WPM</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Words Per Minute</h6>
@@ -62,7 +62,7 @@
                         <h3 class="card-text">95%</h3>
                     </div>
                 </div>
-                <div class="card text-right rounded-0">
+                <div class="card text-right rounded-0" id="stats3">
                     <div class="card-body">
                         <h5 class="card-title">CPM</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Characters Per Minute</h6>
@@ -76,7 +76,7 @@
                     aria-valuemax="100">0%</div>
             </div>
             <!-- <input class="form-control p-5 rounded-0" type="text" placeholder="text to type goes here" readonly> -->
-            <div class="card rounded-0">
+            <div class="card rounded-0" id="words">
                 <div class="card-body">
                     <h3>words to type will appear here.</h3>
                 </div>

@@ -15,14 +15,10 @@
     border-bottom-right-radius: .25rem !important;
 }
 
-#correct {
-    color:#fff;
-    background-color:#28a745;
-    border-radius: .25rem;
+.error {
+    color:#dc3545;
 }
 
-#incorrect {
-    color:#fff;
-    background-color:#dc3545;
-    border-radius: .25rem;
+.cursor {
+    background-color: darkgray;
 }

@@ -1,9 +1,10 @@
-String.prototype.splice = function (start, delCount, newSubStr) {
-    return this.slice(0, start) + newSubStr + this.slice(start + Math.abs(delCount));
+$('#prog-bar').css('width', '3%');
+
+String.prototype.splice = function (start, del_count, new_str) {
+    return this.slice(0, start) + new_str + this.slice(start + Math.abs(del_count));
 };
 
 function generate_text(word_count) {
-    var dict = ['a', 'very', 'simple', 'dictionary'];
     var text = [];
     for (var i = 0; i < word_count; ++i) {
         text[i] = dict[Math.floor(Math.random() * dict.length)];
@@ -11,12 +12,17 @@ function generate_text(word_count) {
     return text;
 }
 
-var started = false;
+var test_active = false;
 function toggle_start() {
+    if (test_active)
+    {
+        return;
+    }
+    setInterval(progress, 100, 0.1);
     return;
 }
 
-word_array = generate_text(5);
+word_array = generate_text(70);
 var text = '';
 for (var i = 0; i < word_array.length; ++i) {
     text += ' ';
@@ -25,7 +31,7 @@ for (var i = 0; i < word_array.length; ++i) {
 
 $('#generated-text').text(text);
 
-var disp;
+var disp; var mistakes = 0; var cpm = 0;
 $('#type-input').bind('input', function () {
     current_pos = $(this).val().length;
     current_char = $(this).val().charAt(current_pos - 1);
@@ -33,18 +39,30 @@ $('#type-input').bind('input', function () {
 
     if ($(this).val().length > 0) {
         toggle_start();
-        started = true;
+        test_active = true;
     }
 
     //highlighting
     if (current_char == text_char) {
-        disp = text.splice(current_pos, 1, '<span id="correct">' + text_char + '</span>');
+        if (current_char != ' ')
+        {
+            cpm++;
+        }
+        disp = text.splice(current_pos + 1, 1, '<span id="correct">' + text.charAt(current_pos + 1) + '</span>');
     }
     else {
-        disp = text.splice(current_pos, 1, '<span id="incorrect">' + text_char + '</span>');
+        mistakes++;
+        disp = text.splice(current_pos + 1, 1, '<span id="incorrect">' + text.charAt(current_pos + 1) + '</span>');
     }
     var generated_text = document.getElementById('generated-text');
     generated_text.innerHTML = disp;
 
-
+    //stats
+    $('#wpm').text((cpm / 4).toFixed(0));
+    $('#wpm-banner').text((cpm / 4).toFixed(0));
+    $('#cpm').text(cpm);
+    $('#cpm-banner').text(cpm);
+    accuracy = 100 - (mistakes / $(this).val().length) * 100;
+    $('#accuracy').text(accuracy.toFixed(1) + '%');
+    $('#accuracy-banner').text(accuracy.toFixed(1) + '%');
 });

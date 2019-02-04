@@ -18,14 +18,15 @@
 <body>
     <div class="alert alert-warning alert-dismissible fade show rounded-0 m-0" role="alert">
         This website is currently under development and some features might not be working.
-        <a href="https://github.com/lukeathedev/typing_test/issues" target="_blank">Improve this</a>!
+        <a href="https://github.com/lukeathedev/typing_test/issues" target="_blank">Improve it</a>!
         <button type="button" class="close py-2" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 
     <div class="alert alert-success alert-dismissible fade show rounded-0 m-0" id="finished-alert" role="alert" style="display: none;">
-        Great job! You've scored 102WPM (408CPM) on this attempt.
+        Great job! You've scored <span id="wpm-banner">0</span>WPM (<span id="cpm-banner">0</span>CPM), typing <span id="accuracy-banner">0.0</span>
+        of the words correctly on this attempt.
         <button type="button" class="close py-2" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -60,21 +61,21 @@
                     <div class="card-body">
                         <h5 class="card-title">WPM</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Words Per Minute</h6>
-                        <h3 class="card-text">102</h3>
+                        <h3 class="card-text" id="wpm">0</h3>
                     </div>
                 </div>
                 <div class="card text-center">
                     <div class="card-body ">
                         <h5 class="card-title">Accuracy</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Correctly Typed Word Ratio</h6>
-                        <h3 class="card-text">95%</h3>
+                        <h3 class="card-text" id="accuracy">0.0%</h3>
                     </div>
                 </div>
                 <div class="card text-right rounded-0" id="stats3">
                     <div class="card-body">
                         <h5 class="card-title">CPM</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Characters Per Minute</h6>
-                        <h3 class="card-text">408</h3>
+                        <h3 class="card-text" id="cpm">0</h3>
                     </div>
                 </div>
             </div>
@@ -83,18 +84,17 @@
                 <div id="prog-bar" class="progress-bar" role="progressbar" aria-valuenow="" aria-valuemin="0"
                     aria-valuemax="100">0%</div>
             </div>
-            <!-- <input class="form-control p-5 rounded-0" type="text" placeholder="text to type goes here" readonly> -->
             <div class="card rounded-0" id="words">
                 <div class="card-body">
-                    <h3 id="generated-text"></h3>
+                    <h5 id="generated-text"></h5>
                 </div>
             </div>
 
             <div class="input-group mb-3 mt-4">
-                <input type="text" class="form-control form-control-lg" id="type-input" placeholder="Type Here"
+                <input type="text" class="form-control form-control-lg" id="type-input" placeholder="Type here to start"
                     aria-label="Type Here" aria-describedby="button-retry">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-primary" type="button" id="button-retry">Retry</button>
+                    <button class="btn btn-outline-primary" type="button" id="button-retry" onclick="retry();">Retry</button>
                 </div>
             </div>
         </div>
@@ -109,7 +109,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
 
+
     <script src="static/js/ui.js"></script>
+    <script src="static/js/dict.js"></script>
     <script src="static/js/typing_test.js"></script>
 
 </body>

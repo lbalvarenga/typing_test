@@ -31,6 +31,7 @@ function prog(int)
     {
         $('#prog-bar').text('Done!');
         $('#prog-bar').css('background-color', '#28a745');
+        $('#finished-alert').show();
         clearInterval(intId);
         return;
     }

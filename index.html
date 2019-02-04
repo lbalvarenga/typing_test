@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <link rel="stylesheet" href="static/css/ui.css">
     <link rel="shortcut icon" href="static/img/icon.png" type="image/x-icon">
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
@@ -20,7 +21,11 @@
         <div class="d-flex">
             <span class="justify-content-right spinner-grow spinner-grow-sm text-danger mr-2" id="test-active" role="status"
                 aria-hidden="true" style="display: none;"></span>
-            <h1>Typing test</h1>
+            <h1>Typing test
+                <small class="text-muted">
+                    by <a class="text-muted" href="https://github.com/lukeathedev" target="_blank">lukeathedev</a>
+                </small>
+            </h1>
         </div>
 
         <p class="lead">
@@ -43,15 +48,15 @@
                         <h3 class="card-text">102</h3>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-body text-center rounded-0">
+                <div class="card text-center">
+                    <div class="card-body ">
                         <h5 class="card-title">Accuracy</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Correctly Typed Word Ratio</h6>
                         <h3 class="card-text">95%</h3>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-body text-right rounded-0">
+                <div class="card text-right rounded-0">
+                    <div class="card-body">
                         <h5 class="card-title">CPM</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Characters Per Minute</h6>
                         <h3 class="card-text">408</h3>
@@ -59,13 +64,24 @@
                 </div>
             </div>
 
-            <div class="progress rounded-0" style="background-color: gainsboro;">
-                <div id="prog-bar" class="progress-bar" role="progressbar" style="width: 3%;" aria-valuenow=""
-                    aria-valuemin="0" aria-valuemax="100">0%</div>
+            <div class="progress rounded-0" id="prog-bar-container">
+                <div id="prog-bar" class="progress-bar" role="progressbar" aria-valuenow="" aria-valuemin="0"
+                    aria-valuemax="100">0%</div>
             </div>
-            <input class="form-control rounded-0" type="text" placeholder="text to type goes here" readonly>
+            <!-- <input class="form-control p-5 rounded-0" type="text" placeholder="text to type goes here" readonly> -->
+            <div class="card rounded-0">
+                <div class="card-body">
+                    <h3>words to type will appear here.</h3>
+                </div>
+            </div>
 
-            <input type="text" class="form-control mt-2" placeholder="Type Here">
+            <div class="input-group mb-3 mt-4">
+                <input type="text" class="form-control form-control-lg" placeholder="Type Here" aria-label="Type Here"
+                    aria-describedby="button-retry">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="button" id="button-retry">Retry</button>
+                </div>
+            </div>
 
         </div>
 

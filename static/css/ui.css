@@ -1,0 +1,5 @@
+#prog-bar-container {
+    border: 1px solid gainsboro;
+    border-top:none;
+    border-bottom:none;
+}

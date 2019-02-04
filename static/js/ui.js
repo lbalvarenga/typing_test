@@ -33,8 +33,7 @@ function prog(int)
         clearInterval(intId);
         return;
     }
-
-    if (i > 3)
+    else if (i > 3)
     {
         $('#prog-bar').css('width', (i + '%'));
     }

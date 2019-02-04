@@ -14,7 +14,7 @@ be
 because
 but
 by
-can	
+can
 come
 could
 day

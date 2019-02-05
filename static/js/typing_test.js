@@ -38,10 +38,24 @@ function progress(bar, min_width, time, rate, callback) {
 // Acts as a callback for progress(), Changing the bar
 // to a 'done' state. If the reset flag is set, it will
 // reset the bar to the 0% state.
-function progress_done(bar, min_width, reset=false) {
+function progress_done(bar, min_width, reset = false) {
     clearInterval(int_id);
     if (reset) {
-        console.log("not implemented");
+        // Ugly but quick lol
+        test_active = false;
+        text = generate_text(100, dict.get());
+        $('#generated-text').html(text);
+        progress_percent = 0;
+        previous_errors = [];
+        display_text = text;
+        typed = 0;
+        accuracy = 0;
+        current_pos = 0;
+        errors = [];
+        $(bar).text('0%');
+        $(bar).css('background-color', '#007bff');
+        $(bar).css('width', (min_width + '%'));
+        $('#type-input').val('');
         return;
     }
     $(bar).text('Done!');
@@ -50,7 +64,7 @@ function progress_done(bar, min_width, reset=false) {
     $('#finished-alert').show();
     $('#type-input').prop('disabled', true);
     return;
-}
+} export { progress_done };
 
 //----------------
 var int_id;
@@ -65,7 +79,7 @@ var current_pos = 0;
 var errors = [];
 $('#type-input').keydown(function (event) {
     if (!test_active) {
-        int_id = setInterval(progress, 100, $('#prog-bar'), 5, 60, 0.1, progress_done);
+        int_id = setInterval(progress, 100, $('#progress-bar'), 5, 60, 0.1, progress_done);
         test_active = true;
     }
 

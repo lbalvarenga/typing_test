@@ -80,9 +80,9 @@
                 </div>
             </div>
 
-            <div class="progress rounded-0" id="prog-bar-container">
-                <div id="prog-bar" class="progress-bar" role="progressbar" aria-valuenow="" aria-valuemin="0"
-                    aria-valuemax="100">0%</div>
+            <div class="progress rounded-0" id="progress-bar-container">
+                <div id="progress-bar" class="progress-bar" role="progressbar" aria-valuenow="" aria-valuemin="0"
+                    aria-valuemax="100" style="width: 5%;">0%</div>
             </div>
             <div class="card rounded-0" id="words">
                 <div class="card-body">
@@ -94,7 +94,14 @@
                 <input type="text" class="form-control form-control-lg" id="type-input" placeholder="Type here to start"
                     aria-label="Type Here" aria-describedby="button-retry">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-primary" type="button" id="button-retry" onclick="retry();">Retry</button>
+                    <button class="btn btn-outline-primary" type="button" id="button-retry">Retry</button>
+                    <!-- Trigger retry function on click -->
+                    <script type="module">
+                        import { progress_done } from './static/js/typing_test.js';
+                        $('#button-retry').on('click', function() {
+                            progress_done($('#progress-bar'), 5, true);
+                        });
+                    </script>
                 </div>
             </div>
         </div>

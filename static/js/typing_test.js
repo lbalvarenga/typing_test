@@ -1,4 +1,93 @@
 import * as dict from "./dict.js";
+window.onload = typing_test($('#type-input'), $('#generated-text'));
+
+// Brain of the website.
+// Responsible for input handling and stats tracking.
+var int_id;
+function typing_test(input, output, active = false) {
+    var generated_text = generate_text(200, dict.get());
+    var output_text    = '<span class="cursor">' + generated_text.charAt(0) + '</span>' + generated_text.slice(1);
+
+    var cursor_position      =  0;
+    var correctly_typed      =  0;
+    var typing_errors        = [];
+    var typing_errors_markup = [];
+    var accuracy = 100;
+    $(output).html(output_text);
+    
+    $(input).keydown(function (event) {
+        // Activate test when user starts to type
+        if (!active) {
+            int_id = setInterval(progress, 100, $('#progress-bar'), 5, 60, 0.1, progress_done);
+            active = true;
+        }
+
+        // If key pressed was backspace
+        if (event.keyCode == 8) {
+            if (cursor_position > 0)
+            { cursor_position--; }
+
+            if (correctly_typed > 0                           &&
+                generated_text.charAt(cursor_position) != ' ' &&
+                typing_errors.indexOf(cursor_position) == -1)
+            { correctly_typed--; }
+
+            if (typing_errors.indexOf(cursor_position) != -1)
+            { typing_errors.pop(); }
+        }
+        else {
+            if (event.key == generated_text.charAt(cursor_position))
+            {
+                if (generated_text.charAt(cursor_position) != ' ')
+                { correctly_typed++; }
+            }
+
+            else if (event.key != 'Shift') 
+            { typing_errors.push(cursor_position); }
+
+            if (event.key != 'Shift')
+            { cursor_position++; }
+        }
+
+        if (typing_errors.length == 0) 
+        { output_text = generated_text.slice(0, cursor_position) + '<span class="cursor">' + generated_text.charAt(cursor_position) + '</span>' + generated_text.slice(cursor_position + 1); }
+
+        else {
+            output_text = generated_text.slice(0, typing_errors[0]);
+            for (var i = 0; i < typing_errors.length; i++) {
+                var error_markup  = '<span class="error">'  + generated_text.charAt(typing_errors[i]) + '</span>';
+                var cursor_markup = '<span class="cursor">' + generated_text.charAt(cursor_position)  + '</span>' + generated_text.slice(cursor_position + 1);
+                if (typing_errors.length - 1 != i)
+                { typing_errors_markup[i] = error_markup + generated_text.slice(typing_errors[i] + 1, typing_errors[i + 1]); }
+
+                else
+                { typing_errors_markup[i] = error_markup + generated_text.slice(typing_errors[i] + 1, cursor_position) + cursor_markup; }
+                output_text += typing_errors_markup[i];
+            }
+        }
+
+        $(output).html(output_text);
+
+        // Stats
+        //TODO: refactor stats
+        $('#wpm').text(Math.round(correctly_typed / 4));
+        $('#wpm-banner').text(Math.round(correctly_typed / 4));
+
+        $('#cpm').text(correctly_typed);
+        $('#cpm-banner').text(correctly_typed);
+
+        if (typing_errors.length > 0) 
+        { accuracy = 100 - (100 * typing_errors.length / cursor_position); }
+
+        else
+        { accuracy = 100; }
+
+        $('#accuracy').text(accuracy.toFixed(2) + '%');
+        $('#accuracy-banner').text(accuracy.toFixed(2) + '%');
+        });
+
+    return;
+}
 
 // Generates a randomized text string with given amount
 // of words from a given word array.
@@ -40,24 +129,18 @@ function progress(bar, min_width, time, rate, callback) {
 // reset the bar to the 0% state.
 function progress_done(bar, min_width, reset = false) {
     clearInterval(int_id);
+
     if (reset) {
-        // Ugly but quick lol
-        test_active = false;
-        text = generate_text(100, dict.get());
-        $('#generated-text').html(text);
         progress_percent = 0;
-        previous_errors = [];
-        display_text = text;
-        typed = 0;
-        accuracy = 0;
-        current_pos = 0;
-        errors = [];
         $(bar).text('0%');
         $(bar).css('background-color', '#007bff');
         $(bar).css('width', (min_width + '%'));
-        $('#type-input').val('');
-        $('#type-input').prop('disabled', false);
+
+        // Custom properties
         $('#finished-alert').hide();
+        $('#type-input').prop('disabled', false);
+        $('#type-input').val('');
+        typing_test($('#type-input'), $('#generated-text'));
         return;
     }
     $(bar).text('Done!');
@@ -67,87 +150,3 @@ function progress_done(bar, min_width, reset = false) {
     $('#type-input').prop('disabled', true);
     return;
 } export { progress_done };
-
-//----------------
-var int_id;
-var test_active = false;
-var text = generate_text(100, dict.get());
-var previous_errors = [];
-var typed = 0;
-var accuracy = 0;
-var current_pos = 0;
-var errors = [];
-var display_text = text.slice(0, current_pos) + '<span class="cursor">' + text.charAt(current_pos) + '</span>' + text.slice(current_pos + 1);
-$('#generated-text').html(display_text);
-$('#type-input').keydown(function (event) {
-    if (!test_active) {
-        int_id = setInterval(progress, 100, $('#progress-bar'), 5, 60, 0.1, progress_done);
-        test_active = true;
-    }
-
-    if (event.keyCode == 8) {
-        if (current_pos > 0) {
-            current_pos--;
-        }
-        if (typed > 0) {
-            if (text.charAt(current_pos) != ' ') {
-                if (errors.indexOf(current_pos) == -1) {
-                    typed--;
-                }
-            }
-        }
-        if (errors.indexOf(current_pos) != -1) {
-            errors.pop();
-        }
-    }
-    else {
-        if (event.key == text.charAt(current_pos)) {
-            if (text.charAt(current_pos) != ' ') {
-                typed++;
-            }
-        }
-        else {
-            if (event.key != 'Shift') {
-                errors.push(current_pos);
-            }
-        }
-        if (event.key != 'Shift') {
-            current_pos++;
-        }
-    }
-
-    if (errors.length == 0) {
-        display_text = text.slice(0, current_pos) + '<span class="cursor">' + text.charAt(current_pos) + '</span>' + text.slice(current_pos + 1);
-    }
-    else {
-        display_text = text.slice(0, errors[0]);
-        for (var i = 0; i < errors.length; i++) {
-            if (errors.length - 1 != i) {
-                previous_errors[i] = '<span class="error">' + text.charAt(errors[i]) + '</span>' + text.slice(errors[i] + 1, errors[i + 1]);
-            }
-            else {
-                previous_errors[i] = '<span class="error">' + text.charAt(errors[i]) + '</span>' + text.slice(errors[i] + 1, current_pos) + '<span class="cursor">' + text.charAt(current_pos) + '</span>' + text.slice(current_pos + 1);
-            }
-            display_text += previous_errors[i];
-        }
-    }
-    $('#generated-text').html(display_text);
-
-    //Stats
-    $('#wpm').text(Math.round(typed / 4));
-    $('#wpm-banner').text(Math.round(typed / 4));
-
-    $('#cpm').text(typed);
-    $('#cpm-banner').text(typed);
-
-    if (errors.length > 0) {
-        accuracy = 100 - (100 * errors.length / current_pos);
-    }
-    else {
-        accuracy = 100;
-    }
-    $('#accuracy').text(accuracy.toFixed(2) + '%');
-    $('#accuracy-banner').text(accuracy.toFixed(2) + '%');
-
-});
-//----------------------

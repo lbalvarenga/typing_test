@@ -1,28 +1,61 @@
-$('#prog-bar').css('width', '3%');
+import * as dict from "./dict.js";
 
-function generate_text(word_count) {
-    var text = [];
+// Generates a randomized text string with given amount
+// of words from a given word array.
+function generate_text(word_count, word_array) {
+    var random_array = []; var text = '';
     for (var i = 0; i < word_count; ++i) {
-        text[i] = dict[Math.floor(Math.random() * dict.length)];
+        random_array[i] = word_array[Math.floor(Math.random() * word_array.length)];
+        text += random_array[i];
     }
     return text;
 }
 
-var test_active = false;
-function toggle_start() {
-    if (test_active) {
-        return;
+// Updates a given progress bar width and completion percentage. The time
+// and rate units are in seconds. 
+// In order to call it, create a global variable int_id, then do
+
+// int_id = setInterval(progress, interval, bar, min_width, time, rate, callback);
+
+// Callback is usually progress_done() and rate should equal the interval set.
+var progress_percent = 0;
+function progress(bar, min_width, time, rate, callback) {
+    $(bar).text(Math.round(progress_percent) + '%');
+    progress_percent += (100 / time) * rate;
+    if (progress_percent <= min_width) {
+        $(bar).css('width', (min_width + '%'));
     }
-    intId = setInterval(progress, 100, 0.1);
+    if (progress_percent > min_width) {
+        $(bar).css('width', (progress_percent + '%'));
+    }
+    if (progress_percent >= 100) {
+        clearInterval(int_id);
+        callback(bar, min_width);
+    }
     return;
 }
 
-word_array = generate_text(70);
-var text = '';
-for (var i = 0; i < word_array.length; ++i) {
-    text += word_array[i];
+// Acts as a callback for progress(), Changing the bar
+// to a 'done' state. If the reset flag is set, it will
+// reset the bar to the 0% state.
+function progress_done(bar, min_width, reset=false) {
+    clearInterval(int_id);
+    if (reset) {
+        console.log("not implemented");
+        return;
+    }
+    $(bar).text('Done!');
+    $(bar).css('background-color', '#28a745'); // Green color
+    // Custom properties
+    $('#finished-alert').show();
+    $('#type-input').prop('disabled', true);
+    return;
 }
 
+//----------------
+var int_id;
+var test_active = false;
+var text = generate_text(100, dict.get());
 $('#generated-text').html(text);
 var previous_errors = [];
 var display_text = text;
@@ -32,7 +65,7 @@ var current_pos = 0;
 var errors = [];
 $('#type-input').keydown(function (event) {
     if (!test_active) {
-        toggle_start();
+        int_id = setInterval(progress, 100, $('#prog-bar'), 5, 60, 0.1, progress_done);
         test_active = true;
     }
 
@@ -101,3 +134,4 @@ $('#type-input').keydown(function (event) {
     $('#accuracy-banner').text(accuracy.toFixed(2) + '%');
 
 });
+//----------------------

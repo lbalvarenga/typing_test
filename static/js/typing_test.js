@@ -21,7 +21,6 @@ word_array = generate_text(70);
 var text = '';
 for (var i = 0; i < word_array.length; ++i) {
     text += word_array[i];
-    text += ' ';
 }
 
 $('#generated-text').html(text);
@@ -69,14 +68,12 @@ $('#type-input').keydown(function (event) {
     }
 
     if (errors.length == 0) {
-        display_text = text;
+        display_text = text.slice(0, current_pos) + '<span class="cursor">' + text.charAt(current_pos) + '</span>' + text.slice(current_pos + 1);
     }
     else {
         display_text = text.slice(0, errors[0]);
         for (var i = 0; i < errors.length; i++) {
             previous_errors[i] = '<span class="error">' + text.charAt(errors[i]) + '</span>' + text.slice(errors[i] + 1, errors[i + 1]);
-        }
-        for (var i = 0; i < errors.length; i++) {
             display_text += previous_errors[i];
         }
     }

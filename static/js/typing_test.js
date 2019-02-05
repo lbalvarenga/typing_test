@@ -6,10 +6,12 @@ window.onload = typing_test($('#type-input'), $('#generated-text'));
 var int_id;
 function typing_test(input, output, active = false) {
     var generated_text = generate_text(300, dict.get());
-    var output_text    = '<span class="cursor">' + generated_text.charAt(0) + '</span>' + generated_text.slice(1, 40);
+    var output_text    = '<span class="cursor">' + generated_text.charAt(0) + '</span>' + generated_text.slice(1, 40) + '...';
 
     var cursor_position      =  0;
+    var total_typed          =  0;
     var correctly_typed      =  0;
+    var total_errors         =  0;
     var typing_errors        = [];
     var typing_errors_markup = [];
     var accuracy = 100;
@@ -40,10 +42,12 @@ function typing_test(input, output, active = false) {
             {
                 if (generated_text.charAt(cursor_position) != ' ')
                 { correctly_typed++; }
+
+                total_typed++;
             }
 
             else if (event.key != 'Shift') 
-            { typing_errors.push(cursor_position); }
+            { typing_errors.push(cursor_position); total_errors++; }
 
             if (event.key != 'Shift')
             { cursor_position++; }
@@ -77,8 +81,8 @@ function typing_test(input, output, active = false) {
         $('#cpm').text(correctly_typed);
         $('#cpm-banner').text(correctly_typed);
 
-        if (typing_errors.length > 0) 
-        { accuracy = 100 - (100 * typing_errors.length / cursor_position); }
+        if (total_errors > 0) 
+        { accuracy = 100 - (100 * total_errors / total_typed); }
 
         else
         { accuracy = 100; }

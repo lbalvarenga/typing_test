@@ -1,4 +1,4 @@
-var full_dict = `
+var dict = `
 a 
 about 
 after 
@@ -100,4 +100,6 @@ year
 you 
 your 
 `
-var dict = full_dict.split('\n');
+export const get = () => {
+    return dict.split('\n');
+}

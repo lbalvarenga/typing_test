@@ -26,7 +26,7 @@
 
     <div class="alert alert-success alert-dismissible fade show rounded-0 m-0" id="finished-alert" role="alert" style="display: none;">
         Great job! You've scored <span id="wpm-banner">0</span>WPM (<span id="cpm-banner">0</span>CPM), typing <span id="accuracy-banner">100.00%</span>
-        of the words correctly on this attempt.
+        of the characters correctly on this attempt.
         <button type="button" class="close py-2" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -80,9 +80,9 @@
                 </div>
             </div>
 
-            <div class="progress rounded-0" id="prog-bar-container">
-                <div id="prog-bar" class="progress-bar" role="progressbar" aria-valuenow="" aria-valuemin="0"
-                    aria-valuemax="100">0%</div>
+            <div class="progress rounded-0" id="progress-bar-container">
+                <div id="progress-bar" class="progress-bar" role="progressbar" aria-valuenow="" aria-valuemin="0"
+                    aria-valuemax="100" style="width: 5%;">0%</div>
             </div>
             <div class="card rounded-0" id="words">
                 <div class="card-body">
@@ -94,7 +94,14 @@
                 <input type="text" class="form-control form-control-lg" id="type-input" placeholder="Type here to start"
                     aria-label="Type Here" aria-describedby="button-retry">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-primary" type="button" id="button-retry" onclick="retry();">Retry</button>
+                    <button class="btn btn-outline-primary" type="button" id="button-retry">Retry</button>
+                    <!-- Trigger retry function on click -->
+                    <script type="module">
+                        import { progress_done } from './static/js/typing_test.js';
+                        $('#button-retry').on('click', function() {
+                            progress_done($('#progress-bar'), 5, true);
+                        });
+                    </script>
                 </div>
             </div>
         </div>
@@ -109,10 +116,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
 
-
-    <script src="static/js/ui.js"></script>
-    <script src="static/js/dict.js"></script>
-    <script src="static/js/typing_test.js"></script>
+    <script type="module" src="static/js/typing_test.js"></script>
 
 </body>
 

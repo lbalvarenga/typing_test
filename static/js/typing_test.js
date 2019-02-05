@@ -56,6 +56,8 @@ function progress_done(bar, min_width, reset = false) {
         $(bar).css('background-color', '#007bff');
         $(bar).css('width', (min_width + '%'));
         $('#type-input').val('');
+        $('#type-input').prop('disabled', false);
+        $('#finished-alert').hide();
         return;
     }
     $(bar).text('Done!');
@@ -70,13 +72,13 @@ function progress_done(bar, min_width, reset = false) {
 var int_id;
 var test_active = false;
 var text = generate_text(100, dict.get());
-$('#generated-text').html(text);
 var previous_errors = [];
-var display_text = text;
 var typed = 0;
 var accuracy = 0;
 var current_pos = 0;
 var errors = [];
+var display_text = text.slice(0, current_pos) + '<span class="cursor">' + text.charAt(current_pos) + '</span>' + text.slice(current_pos + 1);
+$('#generated-text').html(display_text);
 $('#type-input').keydown(function (event) {
     if (!test_active) {
         int_id = setInterval(progress, 100, $('#progress-bar'), 5, 60, 0.1, progress_done);

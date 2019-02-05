@@ -100,6 +100,6 @@ year
 you 
 your 
 `
-export const get = () => {
+function get() {
     return dict.split('\n');
-}
+} export { get };

@@ -84,9 +84,9 @@
                 <div id="progress-bar" class="progress-bar" role="progressbar" aria-valuenow="" aria-valuemin="0"
                     aria-valuemax="100" style="width: 5%;">0%</div>
             </div>
-            <div class="card rounded-0" id="words">
+            <div class="card rounded-0" id="text-container">
                 <div class="card-body">
-                    <h5 id="generated-text"></h5>
+                    <p class="text-monospace" id="generated-text" style="font-size: 1.3rem;"></p>
                 </div>
             </div>
 
@@ -97,9 +97,9 @@
                     <button class="btn btn-outline-primary" type="button" id="button-retry">Retry</button>
                     <!-- Trigger retry function on click -->
                     <script type="module">
-                        import { progress_done } from './static/js/typing_test.js';
+                        import * as typing_test from "./static/js/typing_test.js";
                         $('#button-retry').on('click', function() {
-                            progress_done($('#progress-bar'), 5, true);
+                            typing_test.progress_done($('#progress-bar'), 5, true);
                         });
                     </script>
                 </div>

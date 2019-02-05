@@ -5,8 +5,8 @@ window.onload = typing_test($('#type-input'), $('#generated-text'));
 // Responsible for input handling and stats tracking.
 var int_id;
 function typing_test(input, output, active = false) {
-    var generated_text = generate_text(200, dict.get());
-    var output_text    = '<span class="cursor">' + generated_text.charAt(0) + '</span>' + generated_text.slice(1);
+    var generated_text = generate_text(300, dict.get());
+    var output_text    = '<span class="cursor">' + generated_text.charAt(0) + '</span>' + generated_text.slice(1, 40);
 
     var cursor_position      =  0;
     var correctly_typed      =  0;
@@ -49,14 +49,15 @@ function typing_test(input, output, active = false) {
             { cursor_position++; }
         }
 
+        var cursor_markup = '<span class="cursor">' + generated_text.charAt(cursor_position)  + '</span>' + generated_text.slice(cursor_position + 1, cursor_position + 40);
+
         if (typing_errors.length == 0) 
-        { output_text = generated_text.slice(0, cursor_position) + '<span class="cursor">' + generated_text.charAt(cursor_position) + '</span>' + generated_text.slice(cursor_position + 1); }
+        { output_text = generated_text.slice(0, cursor_position) + cursor_markup; }
 
         else {
             output_text = generated_text.slice(0, typing_errors[0]);
             for (var i = 0; i < typing_errors.length; i++) {
                 var error_markup  = '<span class="error">'  + generated_text.charAt(typing_errors[i]) + '</span>';
-                var cursor_markup = '<span class="cursor">' + generated_text.charAt(cursor_position)  + '</span>' + generated_text.slice(cursor_position + 1);
                 if (typing_errors.length - 1 != i)
                 { typing_errors_markup[i] = error_markup + generated_text.slice(typing_errors[i] + 1, typing_errors[i + 1]); }
 

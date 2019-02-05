@@ -27,7 +27,7 @@ function typing_test(input, output, active = false) {
         // If key pressed was backspace
         if (event.keyCode == 8) {
             if (cursor_position > 0)
-            { cursor_position--; }
+            { cursor_position--; total_typed--; }
 
             if (correctly_typed > 0                           &&
                 generated_text.charAt(cursor_position) != ' ' &&
@@ -38,12 +38,11 @@ function typing_test(input, output, active = false) {
             { typing_errors.pop(); }
         }
         else {
+            total_typed++;
             if (event.key == generated_text.charAt(cursor_position))
             {
                 if (generated_text.charAt(cursor_position) != ' ')
                 { correctly_typed++; }
-
-                total_typed++;
             }
 
             else if (event.key != 'Shift') 
@@ -81,8 +80,11 @@ function typing_test(input, output, active = false) {
         $('#cpm').text(correctly_typed);
         $('#cpm-banner').text(correctly_typed);
 
-        if (total_errors > 0) 
-        { accuracy = 100 - (100 * total_errors / total_typed); }
+        if (total_errors > 0) {
+            accuracy = 100 - (total_typed - (total_typed - total_errors)) / total_typed * 100;
+            if (accuracy < 0) 
+            { accuracy = 0; }
+        }
 
         else
         { accuracy = 100; }

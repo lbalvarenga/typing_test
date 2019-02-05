@@ -1,24 +1,24 @@
-#prog-bar-container {
+#progress-bar-container {
     border: 1px solid gainsboro;
     border-top:none;
     border-bottom:none;
 }
-
 #stats1 {
     border-top-left-radius: .25rem !important;
 }
 #stats3 {
     border-top-right-radius: .25rem !important;
 }
-#words {
+#text-container {
     border-bottom-left-radius: .25rem !important;
     border-bottom-right-radius: .25rem !important;
 }
 
 .error {
-    color:#dc3545;
+    /* color:#dc3545; */
+    background-color: #f8d7da;
 }
 
 .cursor {
-    background-color: darkgray;
+    background-color: gainsboro;
 }

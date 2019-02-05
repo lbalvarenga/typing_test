@@ -1,9 +1,5 @@
 $('#prog-bar').css('width', '3%');
 
-String.prototype.splice = function (start, del_count, new_str) {
-    return this.slice(0, start) + new_str + this.slice(start + Math.abs(del_count));
-};
-
 function generate_text(word_count) {
     var text = [];
     for (var i = 0; i < word_count; ++i) {
@@ -14,55 +10,92 @@ function generate_text(word_count) {
 
 var test_active = false;
 function toggle_start() {
-    if (test_active)
-    {
+    if (test_active) {
         return;
     }
-    setInterval(progress, 100, 0.1);
+    intId = setInterval(progress, 100, 0.1);
     return;
 }
 
 word_array = generate_text(70);
 var text = '';
 for (var i = 0; i < word_array.length; ++i) {
-    text += ' ';
     text += word_array[i];
+    text += ' ';
 }
 
-$('#generated-text').text(text);
-
-var disp; var mistakes = 0; var cpm = 0;
-$('#type-input').bind('input', function () {
-    current_pos = $(this).val().length;
-    current_char = $(this).val().charAt(current_pos - 1);
-    text_char = text.charAt(current_pos);
-
-    if ($(this).val().length > 0) {
+$('#generated-text').html(text);
+var previous_errors = [];
+var display_text = text;
+var typed = 0;
+var accuracy = 0;
+var current_pos = 0;
+var errors = [];
+$('#type-input').keydown(function (event) {
+    if (!test_active) {
         toggle_start();
         test_active = true;
     }
 
-    //highlighting
-    if (current_char == text_char) {
-        if (current_char != ' ')
-        {
-            cpm++;
+    if (event.keyCode == 8) {
+        if (current_pos > 0) {
+            current_pos--;
         }
-        disp = text.splice(current_pos + 1, 1, '<span id="correct">' + text.charAt(current_pos + 1) + '</span>');
+        if (typed > 0) {
+            if (text.charAt(current_pos) != ' ') {
+                if (errors.indexOf(current_pos) == -1) {
+                    typed--;
+                }
+            }
+        }
+        if (errors.indexOf(current_pos) != -1) {
+            errors.pop();
+        }
     }
     else {
-        mistakes++;
-        disp = text.splice(current_pos + 1, 1, '<span id="incorrect">' + text.charAt(current_pos + 1) + '</span>');
+        if (event.key == text.charAt(current_pos)) {
+            if (text.charAt(current_pos) != ' ') {
+                typed++;
+            }
+        }
+        else {
+            if (event.key != 'Shift') {
+                errors.push(current_pos);
+            }
+        }
+        if (event.key != 'Shift') {
+            current_pos++;
+        }
     }
-    var generated_text = document.getElementById('generated-text');
-    generated_text.innerHTML = disp;
 
-    //stats
-    $('#wpm').text((cpm / 4).toFixed(0));
-    $('#wpm-banner').text((cpm / 4).toFixed(0));
-    $('#cpm').text(cpm);
-    $('#cpm-banner').text(cpm);
-    accuracy = 100 - (mistakes / $(this).val().length) * 100;
-    $('#accuracy').text(accuracy.toFixed(1) + '%');
-    $('#accuracy-banner').text(accuracy.toFixed(1) + '%');
+    if (errors.length == 0) {
+        display_text = text;
+    }
+    else {
+        display_text = text.slice(0, errors[0]);
+        for (var i = 0; i < errors.length; i++) {
+            previous_errors[i] = '<span class="error">' + text.charAt(errors[i]) + '</span>' + text.slice(errors[i] + 1, errors[i + 1]);
+        }
+        for (var i = 0; i < errors.length; i++) {
+            display_text += previous_errors[i];
+        }
+    }
+    $('#generated-text').html(display_text);
+
+    //Stats
+    $('#wpm').text(Math.round(typed / 4));
+    $('#wpm-banner').text(Math.round(typed / 4));
+
+    $('#cpm').text(typed);
+    $('#cpm-banner').text(typed);
+
+    if (errors.length > 0) {
+        accuracy = 100 - (100 * errors.length / current_pos);
+    }
+    else {
+        accuracy = 100;
+    }
+    $('#accuracy').text(accuracy.toFixed(2) + '%');
+    $('#accuracy-banner').text(accuracy.toFixed(2) + '%');
+    
 });
